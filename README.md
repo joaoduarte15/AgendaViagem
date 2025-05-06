@@ -6,7 +6,10 @@
 
 # Autores: João Vitor, Lucas Ryan, Romulo Guilherme, "Lucas Meireles".
 
-#
+# Observaçao: Decidimos refazer o projeto do zero pois o antigo estava mal feito, faltando partes, muito complexo
+# Estava sem os seguintes items:
+# Banco de dados: Nao havia um banco de dados funcional.
+# Documentaçao de teste: Nao havia uma documentaçao de teste.
 
 ## Estrutura do projeto
 
