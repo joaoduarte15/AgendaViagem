@@ -57,15 +57,15 @@ bash
 
 ## 4 Estrutura do Banco de Dados 
 
-### **Usuários (users)** 
-- `id` (INT, PK, AUTO_INCREMENT) 
-- `nome` (VARCHAR) 
-- `email` (VARCHAR, UNIQUE) 
-- `senha` (VARCHAR) 
+### **Usuários (usuarios)** 
+- `id` (INT, PK, AUTO_INCREMENT, NN, UQ, UN, ) 
+- `nome` (VARCHAR(60),NN) 
+- `senha` (VARCHAR(20), NN) 
 
 
-### **Posts (posts)** 
-- `id` (INT, PK, AUTO_INCREMENT) 
-- `titulo` (VARCHAR) 
-- `conteudo` (TEXT) 
-- `usuario_id` (FK -> users.id)
+### **Eventos (eventos)** 
+- `id` (INT, PK, AUTO_INCREMENT, NN, UQ, UN, ) 
+- `titulo` (VARCHAR(80), NN) 
+- `data_fim`(DATE, NN)
+- `data_inicio`(DATE, NN)
+- `usuario_id`(INT, NN, UN, FK)
