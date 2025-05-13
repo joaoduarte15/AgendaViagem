@@ -31,28 +31,17 @@
 - Composer instalado 
 
 ### **Instalação** 
-1. Clone o repositório: 
- bash
- git clone [https://github.com/usuario/projeto.git](https://github.com/joaoduarte15/AgendaViagem)
- cd projeto
- 
+1. Baixe o arquivo zip.
 
-2. Instale as dependências: 
- bash
- composer install
- 
+2. Extraia-o para a pasta: C:\seuusuario\XAMPP\htdocs
 
-3. Configure o banco de dados: 
- - Crie o banco no MySQL 
- - Execute o script SQL: 
- sql
- source database/schema.sql;
+3. Abra o mySql.
 
+4. Inicie o banco de dados.
+
+5. Abra o site no seu navegador que preferir usando o comando:
  
- - Configure as credenciais no `.env` 
-4. Inicie o servidor: 
-bash
- php -S localhost:8000 -t public
+    localhost/AgendaViagem-main/Agenda_Viagem/pages/index.php
 
 
 ## 4 Estrutura do Banco de Dados 
