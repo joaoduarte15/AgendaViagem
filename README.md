@@ -18,7 +18,7 @@
 ││── ── /includes
 ││── ── /pages
 ││── ── /public
-│── README.md
+
 
 # Configuração do Ambiente
 
@@ -31,7 +31,7 @@
 - Composer instalado 
 
 ### **Instalação** 
-1. Baixe o arquivo zip.
+1. Baixe o arquivo zip.(lembrando que o projeto está na branch dev)
 
 2. Extraia-o para a pasta: C:\seuusuario\XAMPP\htdocs
 
