@@ -41,7 +41,7 @@
 
 5. Abra o site no seu navegador que preferir usando o comando:
  
-    localhost/AgendaViagem-main/Agenda_Viagem/pages/index.php
+    localhost/Agenda_Viagem/pages/index.php
 
 
 ## 4 Estrutura do Banco de Dados 
