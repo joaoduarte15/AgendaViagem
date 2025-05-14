@@ -2,31 +2,54 @@
 
 require_once __DIR__ . '/../config/conexao.php';
 
-if(isset($_POST['nome']) && isset($_POST['senha']) && isset($_POST['csenha'])) {
+$erro = ''; 
+if (isset($_POST['nome']) && isset($_POST['senha']) && isset($_POST['csenha'])) {
 
-    $nome = $mysqli->real_escape_string($_POST['nome']);
-    $senha = $mysqli->real_escape_string($_POST['senha']);
-    $csenha = $mysqli->real_escape_string($_POST['csenha']);
+    $nome = trim($_POST['nome']);
+    $senha = trim($_POST['senha']);
+    $csenha = trim($_POST['csenha']);
+
+    if (preg_match('/[^a-zA-Z0-9]/', $nome)) {
+        $erro = "Erro: O nome deve conter apenas letras e números, sem espaços ou caracteres especiais!";
+    }
+
+    elseif (empty($nome)) {
+        $erro = "Erro: O nome não pode estar vazio!";
+    }
+
+    elseif (preg_match('/\s/', $senha)) {
+        $erro = "Erro: A senha não pode conter espaços!";
+    }
+
+    elseif ($senha !== $csenha) {
+        $erro = "Erro: As senhas não coincidem!";
+    }
+
+    elseif (strlen($senha) < 8) {
+        $erro = "Erro: A senha deve ter no mínimo 8 caracteres!";
+    }
+    else {
+
+        $nome_esc = $mysqli->real_escape_string($nome);
+        $senha_esc = $mysqli->real_escape_string($senha);
 
 
-    if ($senha !== $csenha) {
-        echo "Erro: As senhas não coincidem!";
-    } else {
-
-        $sql_verifica = "SELECT * FROM usuario WHERE nome = '$nome'";
-        $query_verifica = $mysqli->query($sql_verifica) or die("Falha na Execução do código SQL: " . $mysqli->error);
+        $sql_verifica = "SELECT * FROM usuario WHERE nome = '$nome_esc'";
+        $query_verifica = $mysqli->query($sql_verifica) or die("Falha na execução do código SQL: " . $mysqli->error);
 
         if ($query_verifica->num_rows > 0) {
-            echo "Erro: Usuário já cadastrado!";
+            $erro = "Erro: Usuário já cadastrado!";
         } else {
-            
-            $sql_insert = "INSERT INTO usuario (nome, senha) VALUES ('$nome', '$senha')";
+
+            $senha_hash = password_hash($senha_esc, PASSWORD_DEFAULT);
+
+            $sql_insert = "INSERT INTO usuario (nome, senha) VALUES ('$nome_esc', '$senha_hash')";
             if ($mysqli->query($sql_insert)) {
-                echo "Cadastro realizado com sucesso!";
+
                 header("Location: index.php");
                 exit();
             } else {
-                echo "Erro ao cadastrar: " . $mysqli->error;
+                $erro = "Erro ao cadastrar: " . $mysqli->error;
             }
         }
     }
@@ -45,17 +68,22 @@ if(isset($_POST['nome']) && isset($_POST['senha']) && isset($_POST['csenha'])) {
 <body>
     <div class="container">
         <h2>Cadastre-se</h2>
+        <?php if (!empty($erro)): ?>
+            <div class="mensagem-erro-senha"><?php echo $erro; ?></div>
+        <?php endif; ?>
         <form action="" method="POST">
-            <label for="nome">Nome: </label>
-            <input type="text" name="nome" id="nome" required>
+    <label for="nome">Nome: </label>
+    <input type="text" name="nome" id="nome" required>
 
-            <label for="senha">Senha: </label>
-            <input type="password" name="senha" id="senha" minlength="8" maxlength="20" required>
+    <label for="senha">Senha: </label>
+    <input type="password" name="senha" id="senha" minlength="8" maxlength="20" required>
 
-            <label for="csenha">Confirmar Senha: </label>
-            <input type="password" name="csenha" id="csenha" minlength="8" maxlength="20" required>
+    <label for="csenha">Confirmar Senha: </label>
+    <input type="password" name="csenha" id="csenha" minlength="8" maxlength="20" required>
 
-            <button type="submit" name="cadastro">CADASTRAR</button>
+    <button type="submit" name="cadastro">CADASTRAR</button>
+    <button type="button" onclick="window.location.href='index.php'">Voltar para Login</button>
+</form>
         </form>
     </div>
 </body>

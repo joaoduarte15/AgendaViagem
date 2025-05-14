@@ -3,7 +3,6 @@ require_once __DIR__ . '/../includes/protect.php';
 require_once __DIR__ . '/../config/conexao.php';
 $user_id = $_SESSION['id'];
 
-// Processar exclusão de viagem
 if (isset($_GET['excluir'])) {
     $id_excluir = (int)$_GET['excluir'];
     $sql_check = "SELECT id FROM evento WHERE id = $id_excluir AND usuario_id = $user_id";
@@ -23,17 +22,30 @@ if (isset($_GET['excluir'])) {
     exit;
 }
 
-// Processa o formulário de cadastro de viagem
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $titulo = $mysqli->real_escape_string($_POST['titulo']);
-    $data_inicio = $mysqli->real_escape_string($_POST['data_inicio']);
-    $data_fim = $mysqli->real_escape_string($_POST['data_fim']);
+    $titulo = trim($_POST['titulo']);
+    $data_inicio = trim($_POST['data_inicio']);
+    $data_fim = trim($_POST['data_fim']);
 
     if (!strtotime($data_inicio) || !strtotime($data_fim)) {
         $_SESSION['mensagem'] = "<p style='color: red;'>Datas inválidas!</p>";
-    } elseif ($data_fim < $data_inicio) {
+    }
+     elseif ($data_fim < $data_inicio) {
         $_SESSION['mensagem'] = "<p style='color: red;'>A data de fim não pode ser anterior ao início!</p>";
-    } else {
+    }
+     elseif (empty($titulo)) {
+        $_SESSION['mensagem'] = "<p style='color: red;'>Título não pode ser vazio!</p>";
+    } 
+    elseif (strlen($titulo) > 100) {
+        $_SESSION['mensagem'] = "<p style='color: red;'>Título muito longo! Máximo 100 caracteres.</p>";
+    }
+     elseif (preg_match('/[^a-zA-Z0-9\s]/', $titulo)) {
+        $_SESSION['mensagem'] = "<p style='color: red;'>Título deve conter apenas letras, números e espaços!</p>";
+    } 
+    elseif (preg_match('/\s/', $titulo)) {
+        $_SESSION['mensagem'] = "<p style='color: red;'>Título não pode conter apenas espaços!</p>";
+    } 
+    else {
         $sql_insert = "INSERT INTO evento (titulo, data_inicio, data_fim, usuario_id) VALUES ('$titulo', '$data_inicio', '$data_fim', '$user_id')";
         if ($mysqli->query($sql_insert)) {
             $_SESSION['mensagem'] = "<p style='color: green;'>Viagem cadastrada com sucesso!</p>";

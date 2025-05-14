@@ -3,29 +3,27 @@
 require_once __DIR__ . '/../config/conexao.php';
 session_start();
 
-if(isset($_POST['nome']) || isset($_POST['senha'])){
+if (isset($_POST['nome']) && isset($_POST['senha'])) {
 
     $nome = $mysqli->real_escape_string($_POST['nome']);
-    $senha = $mysqli->real_escape_string($_POST['senha']);
+    $senha = $_POST['senha']; // Não precisa escapar a senha para verificação
 
-    $sql_code = "SELECT * FROM usuario WHERE nome = '$nome' AND senha = '$senha' ";
-    $sql_query = $mysqli->query($sql_code) or die("Falha na Execução do código SQL: " . $mysqli->error);
+    $sql_code = "SELECT * FROM usuario WHERE nome = '$nome'";
+    $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
 
-    $quantidade = $sql_query->num_rows;
-
-    if($quantidade==1){
+    if ($sql_query->num_rows === 1) {
         $usuario = $sql_query->fetch_assoc();
 
-        if(!isset($_SESSION)){
-            session_start();
+        if (password_verify($senha, $usuario['senha'])) {
+            $_SESSION['id'] = $usuario['id'];
+            $_SESSION['nome'] = $usuario['nome'];
+
+            header("Location: painel.php");
+            exit();
+        } else {
+            echo "Falha ao logar! Username ou senha incorretos.";
         }
-
-        $_SESSION['id'] = $usuario['id'];
-        $_SESSION['nome'] = $usuario['nome'];
-
-        header("Location: painel.php");
-
-    } else{
+    } else {
         echo "Falha ao logar! Username ou senha incorretos.";
     }
 }

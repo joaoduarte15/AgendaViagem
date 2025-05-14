@@ -1,4 +1,4 @@
-/* Reset básico e estilos gerais */
+
 * {
     margin: 0;
     padding: 0;
@@ -79,7 +79,6 @@ button:hover {
     box-shadow: 0 4px 8px rgba(0, 100, 0, 0.2);
 }
 
-/* Estilos para mensagens de erro/sucesso */
 body > p {
     position: absolute;
     top: 20px;
@@ -93,7 +92,7 @@ body > p {
     font-weight: bold;
 }
 
-/* Mensagem de erro */
+
 body > p[style*="color: red"],
 body > p[style*="Erro"] {
     background-color: #ffebee;
@@ -101,14 +100,12 @@ body > p[style*="Erro"] {
     border: 1px solid #ef9a9a;
 }
 
-/* Mensagem de sucesso */
 body > p[style*="sucesso"] {
     background-color: #e8f5e9;
     color: #2e7d32 !important;
     border: 1px solid #a5d6a7;
 }
 
-/* Link para voltar ao login (se adicionado posteriormente) */
 .voltar-login {
     text-align: center;
     margin-top: 20px;
@@ -124,3 +121,13 @@ body > p[style*="sucesso"] {
 .voltar-login a:hover {
     text-decoration: underline;
 }
+.mensagem-erro-senha {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #ef9a9a;
+            font-weight: bold;
+        }

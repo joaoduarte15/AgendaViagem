@@ -2,7 +2,8 @@
 
 $host = "localhost";
 $usuario = "root";
-$senha = "&tec77@info!";
+$senha = "1234";
+//$senha = "&tec77@info!";
 $database = "agenda_db";
 
 
